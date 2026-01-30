@@ -154,7 +154,7 @@ export default function Home() {
             )) : (
               <div className="text-center py-16 bg-white/5 rounded-xl">
                 <h3 className="text-2xl sm:text-3xl text-white font-semibold mb-4">No Upcoming Shows</h3>
-                <p className="text-lg text-white/70 leading-relaxed max-w-md mx-auto">We're currently working on new dates. Sign up to be notified first.</p>
+                <p className="text-lg text-white/70 leading-relaxed max-w-md mx-auto">Wee're currently working on new dates. Sign up to be notified first.</p>
               </div>
             )}
           </div>
