@@ -172,18 +172,8 @@
               <h2 class="text-3xl sm:text-4xl md:text-5xl text-white font-bold tracking-tight mb-2">Upcoming Shows</h2>
             </div>
             <div class="space-y-5 mb-10">
-              <div class="text-center py-16 bg-white/5 rounded-xl">
-                <!-- <h3 class="text-2xl sm:text-3xl text-white font-semibold mb-4">No Upcoming Shows</h3>
-                <p class="text-lg text-white/70 leading-relaxed max-w-md mx-auto">We're currently working on new dates.
-                  Sign up to be notified first.</p> -->
-                <h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">March 27
-                    - 5pm - - - <a href="https://www.bigrockmarin.com/live-music-calander">Big Rock Deli, San Rafael</a></h4>
-                <h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">June 14
-                    - 3pm - - - <a href="https://www.bigrockmarin.com/live-music-calander">Big Rock Deli, San Rafael</a></h4>
-                <h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">July 26
-                    - 3pm - - - <a href="https://www.bigrockmarin.com/live-music-calander">Big Rock Deli, San Rafael</a></h4>
-                <h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">August 9
-                    - 3pm - - - <a href="https://www.bigrockmarin.com/live-music-calander">Big Rock Deli, San Rafael</a></h4>
+              <div id="gigs" class="text-center py-16 bg-white/5 rounded-xl">
+
               </div>
             </div>
           </div>
@@ -286,6 +276,50 @@
         </button>
     </div>
   </div>
+
+<script>
+  fetch('shows/csv/koolwhip_shows.csv')
+    .then(response => response.text())
+    .then(data => {
+      const lines = data.split("\n");
+      const regex = /(".*?"|[^",\n]+)(?=\s*,|\s*\n|$)/g;
+      let array = [];
+      let m;
+      for (let i = 0; i < lines.length; i++) {
+        array[i] = [];
+
+        // Put the URL to variable $1 after visiting the URL
+        const URLrexp = /((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+
+        do {
+          m = regex.exec(lines[i]);
+          if (m) {
+            // array[i].push(m[1].replace(/"/g, '').replace(URLrexp, "<a href='$1' target='_blank'>more info</a>"));
+            array[i].push(m[1].replace(/"/g, ''));
+          }
+        } while (m);
+      }
+
+      let markup = '';
+
+      for (let i = 0; i < array.length; i++) {
+        if(array[i][0] == 'gigs') {
+          markup += '<h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">' + array[i][4] + ' - ' + array[i][5] + '- - - - <a href="' + array[i][1] + '">' + array[i][2] + '</a></h4>'
+        }
+      }
+
+      if (markup == '') {
+        markup = '<h3 class="text-2xl sm:text-3xl text-white font-semibold mb-4">No Upcoming Shows</h3><p class="text-lg text-white/70 leading-relaxed max-w-md mx-auto">We\'re currently working on new dates. <br>Sign up to be notified first.</p>'
+      }
+
+      document.getElementById('gigs').innerHTML = markup;
+    })
+    .catch(error => console.error("An error occurred:", error));
+
+  </script>
+
+
+
 </body>
 
 </html>
