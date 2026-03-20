@@ -172,7 +172,7 @@
               <h2 class="text-3xl sm:text-4xl md:text-5xl text-white font-bold tracking-tight mb-2">Upcoming Shows</h2>
             </div>
             <div class="space-y-5 mb-10">
-              <div id="gigs" class="text-center py-16 bg-white/5 rounded-xl">
+              <div id="gigs" class="py-16 bg-white/5 rounded-xl">
 
               </div>
             </div>
@@ -278,6 +278,9 @@
   </div>
 
 <script>
+  var markupFirst = '<div class="space-y-5 mb-10"><div class="bg-white/5 border border-white/10 rounded-xl p-5 sm:p-6 hover:bg-white/10 hover:border-rust-orange/50 transition-all duration-300 cursor-pointer" data-testid="show-36"><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"><div class="flex-1">';
+  var markupSecond = '</div></div></div></div>';
+
   fetch('shows/csv/koolwhip_shows.csv')
     .then(response => response.text())
     .then(data => {
@@ -304,7 +307,22 @@
 
       for (let i = 0; i < array.length; i++) {
         if(array[i][0] == 'gigs') {
-          markup += '<h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">' + array[i][4] + ' - ' + array[i][5] + '- - - - <a href="' + array[i][1] + '">' + array[i][2] + '</a></h4>'
+          markup += markupFirst;
+          markup += '<h3 class="text-xl sm:text-2xl text-white font-semibold mb-2">';
+          if (array[i][1]) {
+            markup += '<a target="_blank" href="' + array[i][1] + '">' + array[i][2] + '</a>';
+          }
+          else {
+            markup += '<span>' + array[i][2] + '</span>';
+          }
+          markup += '</h3>';
+          markup += '<p class="text-base sm:text-lg text-white/70 mb-3">' + array[i][3] + '</p>';
+          markup += '<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">';
+          markup += '<p class="text-base sm:text-lg text-rust-orange font-medium">' + array[i][4] + '</p>';
+          markup += '<span class="hidden sm:inline text-white/30">&#8226;</span>';
+          markup += '<p class="text-base text-white/70">' + array[i][5] + '</p>';
+          markup += markupSecond;          
+          // markup += '<h4 class="luxury-typography text-2xl text-white font-light tracking-wide mb-4">' + array[i][4] + ' - ' + array[i][5] + '- - - - <a href="' + array[i][1] + '">' + array[i][2] + '</a></h4>'
         }
       }
 
